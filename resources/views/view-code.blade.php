@@ -23,10 +23,10 @@
 
 
                         <div class="card-body">
-{{--                            <p class="card-text">{!! \Milon\Barcode\DNS1D::getBarcodeHTML($barcode->generate, 'C39',1,33) !!}</p>--}}
+                            <p class="card-text">{!! \Milon\Barcode\DNS1D::getBarcodeHTML($barcode->generate, 'C39',1,33) !!}</p>
 
 {{--                            <img src="data:image/png;base64,{!! $barcode->barcode !!}" >--}}
-                            <img src="data:image/png;base64, {!! $barcode->base64 !!}" alt="Barcode">
+
                             <h5 class="card-title">Barcode ID: {{ $barcode->id }}</h5>
                             <p class="card-text">Code: {{ $barcode->code_format }}</p>
                             <p class="card-text">Range: {{ $barcode->range }}</p>

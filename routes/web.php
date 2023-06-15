@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\CodeGenerateController;
 use Illuminate\Support\Facades\Route;
+use Milon\Barcode\DNS1D;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +26,14 @@ Route::get('/generate/latest/ajax/{code_format}', [CodeGenerateController::class
 Route::get('report', [CodeGenerateController::class, 'ShowReport']);
 Route::get('azadvai', [CodeGenerateController::class, 'ShowDemo']);
 Route::get('print', [CodeGenerateController::class, 'PrintGeneratedBarcode']);
+Route::get('/print/latest/ajax/{starting_range}', [CodeGenerateController::class, 'PrintFromRange']);
+//Route::get('/show-barcode/{value}', [CodeGenerateController::class, 'PrintBarcode'])->name('print.barcode');
+Route::post('/store-in-variable', function (Request $request) {
+    $data=array();
+    $incrementedRange = $request->input('incrementedRange');
+
+    // Store the value in a PHP variable or process it as needed
+    session(['incrementedRange' => $incrementedRange]);
+
+    return response()->json(['success' => true]);
+})->name('store-in-variable')->middleware('web');

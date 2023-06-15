@@ -11,8 +11,39 @@ use Milon\Barcode\DNS1D;
 
 class CodeGenerateController extends Controller
 {
+
+    public function PrintBarcode($value){
+
+        $barcodeHTML = DNS1D::getBarcodeHTML($value, 'C39', 1, 33);
+
+        return response($barcodeHTML);
+
+    }
+
+    public function PrintFromRange($starting_range){
+
+        preg_match('/^[A-Za-z]+/', $starting_range, $stringPortion);
+
+// Extract the number portion
+        preg_match('/\d+$/', $starting_range, $numberPortion);
+
+// Get the extracted portions
+        $stringPortion = $stringPortion[0]; // Array element at index 0
+        $numberPortion = $numberPortion[0]; // Array element at index 0
+
+        $barcodes = DB::table("code_generates")
+            ->where('code_format',$stringPortion)
+            ->where('range','>=',$numberPortion)
+            ->where('status',2)
+            ->orderBy('code_format','ASC')
+            ->get();
+
+        return json_encode($barcodes);
+
+    }
+
     public function PrintGeneratedBarcode(){
-        $generated=CodeGenerate::where('status',2)->orderBy('code_format','asc')->orderBy('range','asc')->get('generate');
+        $generated=CodeGenerate::where('status',2)->orderBy('code_format','asc')->orderBy('range','asc')->get(['generate','range']);
 //        dd($generated);
         return view('print',compact('generated'));
     }
