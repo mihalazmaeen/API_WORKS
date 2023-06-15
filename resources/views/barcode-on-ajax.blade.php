@@ -1,5 +1,7 @@
-
-<!doctype html >
+<?php
+use Illuminate\Support\Facades\Session;
+?>
+    <!doctype html >
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,9 +10,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Code Generator</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-
-
-
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <body>
@@ -54,12 +57,6 @@
 
 
 
-
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.0/jspdf.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script type="text/javascript">
     {{--$(document).ready(function() {--}}
     {{--    $('select[name="starting_range"]').on('change', function() {--}}
@@ -136,11 +133,8 @@
             }
         });
 
-        $('button.btn-success').on('click', function(e) {
-            e.preventDefault(); // Prevent form submission
-
+        $('select[name="ending_range"]').on('change', function() {
             generateBarcodes(); // Generate and display barcodes
-            generatePDF(); // Generate PDF document with barcodes
         });
 
         function generateBarcodes() {
@@ -169,23 +163,12 @@
                 }
             }
         }
-
-        function generatePDF() {
-            let pdf = new jspdf();
-
-            // Get the HTML content of the barcodes container
-            let barcodeContainer = document.getElementById('barcodes');
-            let html = barcodeContainer.innerHTML;
-
-            // Add the HTML content to the PDF document
-            pdf.fromHTML(html, 15, 15, {
-                width: 180
-            });
-
-            // Save the PDF document
-            pdf.save('barcodes.pdf');
-        }
     });
+
+
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </body>
 </html>
